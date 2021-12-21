@@ -1,0 +1,190 @@
+{% extends "base.html"%}
+{% load static %}
+{% block content%}
+<div class="row ">
+    <div class="col-12 col-md-12 col-lg-4">
+        <div class="card author-box">
+            <div class="card-body">
+                <div class="author-box-center">
+                    <img alt="image" src="{{employee_detail.photo.url}}" class="rounded-circle author-box-picture">
+                    <div class="clearfix"></div>
+                    <div class="author-box-name">
+                        <a href="#">{{employee_detail.full_name}}</a>
+                    </div>
+                    <div class="author-box-job"><strong>{{employee_detail.designation}}</strong> In <strong>{{employee_detail.branch}}</strong>
+                    </div>
+                </div>
+                <div class="author-box-center">
+
+                    <p class="text-muted">Reference By:<strong>{{employee_detail.reference_by}}</strong></p>
+                </div>
+
+                <div class="text-center">
+                    <div class="author-box-description">
+                        <p>
+                            {{employee_detail.bio}}
+                        </p>
+
+                    </div>
+                    <div class="w-100 d-sm-none"></div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h4>Branch Details</h4>
+            </div>
+            <div class="card-body">
+                <div class="py-4">
+                    <p class="clearfix">
+                        <span class="float-left">
+                         Branch Name
+                        </span>
+                        <span class="float-right text-muted">
+                          {{employee_detail.branch.branch_name}}
+                        </span>
+                    </p>
+                    <p class="clearfix">
+                        <span class="float-left">
+                          Phone
+                        </span>
+                        <span class="float-right text-muted">
+                          {{employee_detail.branch.phone_no}}
+                        </span>
+                    </p>
+                    <p class="clearfix">
+                        <span class="float-left">
+                          Location
+                        </span>
+                        <span class="float-right text-muted">
+                          {{employee_detail.branch.location}}
+                        </span>
+                    </p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-12 col-lg-8">
+        <div class="card">
+            <div class="padding-20">
+                <div class="row">
+                    <div class="col-6 b-r">
+                        <strong>Mobile</strong>
+                        <br>
+                        <p class="text-muted">{{employee_detail.contact_no}}</p>
+                    </div>
+                    <div class=" col-6">
+                        <strong>gender</strong>
+                        <br>
+                        <p class="text-muted">{{employee_detail.gender}}</p>
+                    </div>
+                    <div class=" col-6">
+                        <strong>Father Name</strong>
+                        <br>
+                        <p class="text-muted">{{employee_detail.father_name}}</p>
+                    </div>
+                    <div class=" col-6">
+                        <strong>Mother Name</strong>
+                        <br>
+                        <p class="text-muted">{{employee_detail.mother_name}}</p>
+                    </div>
+                    <div class=" col-6">
+                        <strong>Pan No</strong>
+                        <br>
+                        <p class="text-muted">{{employee_detail.pan_no}}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    {% if employee_detail.family_photo%}
+                    <div class="col-6 ">
+                        <div class="card">
+                            <div class="card-header">
+                                <strong>Family Photo</strong>
+                            </div>
+                            <div class="card-body">
+                                <div id="aniimated-thumbnials" class="row clearfix">
+                                    <a href="{{employee_detail.family_photo.url}}"
+                                       data-sub-html="Demo Description" target="_blank">
+                                        <img class="img-responsive thumbnail"
+                                             src="{{employee_detail.family_photo.url}}" alt="">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {%endif%}
+                    <div class="col-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <strong>Passport/citizinship</strong>
+                            </div>
+                            <div class="card-body">
+                                <div id="aniimated-thumbnials" class="row clearfix">
+                                    <a href="{{employee_detail.passport_or_citizenship.url}}"
+                                       data-sub-html="Demo Description" target="_blank">
+                                        <img class="img-responsive thumbnail"
+                                             src="{{employee_detail.passport_or_citizenship.url}}" alt="">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{%  if perms.Employee.change_employee %}
+<a href="{%url 'Employee:employee_edit_view' employee_detail.id %}" class="btn btn-primary">Edit</a>
+{% endif%}
+{% if perms.Employee.delete_employee %}
+<button class="btn btn-danger" onclick="deleteEmployee({{employee_detail.id}})" >Delete</button>
+{% endif %}
+{% endblock content%}
+{% block javascript%}
+<script src="{% static 'assets/js/page/portfolio.js'%}"></script>
+<script>
+    let deleteEmployee = ((id) => {
+    swal({
+        title: 'Are you sure?',
+        text: 'Once deleted, you will not be able to recover Employee date!',
+        icon: 'warning',
+        buttons: true,
+        dangerMode: true,
+    }).then((willDelete) => {
+        if (willDelete) {
+            $.ajax({
+                type: 'POST',
+                url:  "{% url 'Employee:employee_delete_view' employee_detail.id %}",
+                data: {
+                    'csrfmiddlewaretoken': "{{ csrf_token }}"
+                },
+
+                success: (response) => {
+                    console.log(response);
+                    swal({
+                        title: 'Poof! Employee has been deleted!',
+                        icon: 'success',
+                    }).then(value =>{
+                        if(value){
+                            window.location = "{% url 'dashboard'%}"
+                        }
+                    })
+
+                },
+                error: function () {
+                    swal({
+                        title: 'Employee delete Error ',
+                        icon: 'error'
+                    })
+                }
+            })
+
+
+        }
+    })
+});
+</script>
+{% endblock javascript%}
+

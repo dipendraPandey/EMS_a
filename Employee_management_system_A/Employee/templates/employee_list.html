@@ -1,0 +1,55 @@
+{% extends "base.html"%}
+
+{% block content%}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4>Employee List</h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped" id="table-1">
+                        <thead>
+                        <tr>
+                            <th class="text-center">
+                                #
+                            </th>
+                            <th>Name</th>
+                            <th>Designation</th>
+                            <th>Photo</th>
+                            <th>Branch</th>
+                            <th>Contact No</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for employee in employee_list%}
+                        <tr>
+                            <td>
+                                {{forloop.counter}}
+                            </td>
+                            <td>{{employee.full_name}}</td>
+                            <td >
+                               {{employee.designation}}
+                            </td>
+                            <td>
+                                <img alt="image" src="{{employee.photo.url}}" width="35">
+                            </td>
+                            <td>{{employee.branch}}</td>
+                            <td>
+                               {{employee.contact_no}}
+                            </td>
+                            <td><a href="{%url 'Employee:employee_detail_view' employee.id %}" class="btn btn-primary">Detail</a></td>
+                        </tr>
+                        {% endfor%}
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content%}

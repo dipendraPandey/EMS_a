@@ -1,0 +1,49 @@
+{% extends "base.html"%}
+
+{% block content%}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4>Employee List</h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped" id="table-1">
+                        <thead>
+                        <tr>
+                            <th class="text-center">
+                                #
+                            </th>
+                            <th>Name</th>
+                            <th>Location</th>
+                            <th>Phone NO</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for branch in branch_list %}
+                        <tr>
+                            <td>
+                                {{branch.id}}
+                            </td>
+                            <td>{{branch.branch_name}}</td>
+                            <td >
+                               {{branch.location}}
+
+                            </td>
+
+                            <td>{{branch.phone_no}}</td>
+
+
+                        </tr>
+                        {% endfor%}
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content%}

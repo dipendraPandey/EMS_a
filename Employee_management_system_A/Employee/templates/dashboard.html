@@ -1,0 +1,130 @@
+{% extends "base.html"%}
+{% load static%}
+{% block css%}
+{% endblock css%}
+
+
+{% block content%}
+<div class="row ">
+    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        <div class="card">
+            <div class="card-statistic-4">
+                <div class="align-items-center justify-content-between">
+                    <div class="row ">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
+                            <div class="card-content">
+                                <h5 class="font-15">Total Employee</h5>
+                                <h2 class="mb-3 font-18">{{employee_number}}</h2>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pl-0">
+                            <div class="banner-img">
+                                <img src="{% static 'assets/img/ems_images/employee.png'%}" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        <div class="card">
+            <div class="card-statistic-4">
+                <div class="align-items-center justify-content-between">
+                    <div class="row ">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
+                            <div class="card-content">
+                                <h5 class="font-15"> Branach</h5>
+                                <h2 class="mb-3 font-18">{{branch_number}}</h2>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pl-0">
+                            <div class="banner-img">
+                                <img src="{% static 'assets/img/ems_images/branch.png'%}" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        <div class="card">
+            <div class="card-statistic-4">
+                <div class="align-items-center justify-content-between">
+                    <div class="row ">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
+                            <div class="card-content">
+                                <h5 class="font-15">Designation</h5>
+                                <h2 class="mb-3 font-18">{{designation_number}}</h2>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pl-0">
+                            <div class="banner-img">
+                                <img src="{% static 'assets/img/ems_images/designation.png'%}" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4>Employee List</h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped" id="table-1">
+                        <thead>
+                        <tr>
+                            <th class="text-center">
+                                #
+                            </th>
+                            <th>Name</th>
+                            <th>Designation</th>
+                            <th>Photo</th>
+                            <th>Branch</th>
+                            <th>Contact No</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for employee in employee_list%}
+                        <tr>
+                            <td>
+                                {{forloop.counter}}
+                            </td>
+                            <td>{{employee.full_name}}</td>
+                            <td >
+                               {{employee.designation}}
+                            </td>
+                            <td>
+                                <img alt="image" src="{{employee.photo.url}}" width="35">
+                            </td>
+                            <td>{{employee.branch}}</td>
+                            <td>
+                               {{employee.contact_no}}
+                            </td>
+                            <td><a href="{%url 'Employee:employee_detail_view' employee.id %}" class="btn btn-primary">Detail</a></td>
+                        </tr>
+                        {% endfor%}
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block javascript %}
+<script src="{% static 'assets/bundles/apexcharts/apexcharts.min.js'%}"></script>
+<!-- Page Specific JS File -->
+<script src="{% static 'assets/js/page/index.js'%}"></script>
+{% endblock javascript%}
