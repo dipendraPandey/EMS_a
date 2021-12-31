@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
 from django.views.generic import TemplateView
@@ -22,17 +23,20 @@ class EmployeeListView(LoginRequiredMixin, ListView):
     permission_denied_message = "You DoNot Have Necessary Permissions"
 
 
-class EmployeeUpdateView(LoginRequiredMixin, UpdateView):
+class EmployeeUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Employee
     form_class = EmployeeForm
     template_name = "employee_edit.html"
     success_url = '/'
+    success_message = 'Employee Updated successfully'
+    error_message = 'Error Updating Employee'
 
 
-class EmployeeDeleteView(LoginRequiredMixin, DeleteView):
+class EmployeeDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = Employee
     form_class = EmployeeForm
     success_url = '/'
+    success_message = 'Employee Deleted successful'
 
 
 class EmployeeCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
