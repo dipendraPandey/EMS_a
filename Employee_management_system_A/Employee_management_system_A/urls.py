@@ -24,6 +24,7 @@ urlpatterns = [
                   path('', DashboardView.as_view(),),
                   path('', include('Employee.urls')),
                   path('dashboard/', DashboardView.as_view(), name='dashboard'),
-                  path('accounts/', include('django.contrib.auth.urls'))
+                  path('accounts/', include('django.contrib.auth.urls')),
+                  path('search/', include('haystack.urls')),
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL,
                                                                                            document_root=settings.MEDIA_ROOT)

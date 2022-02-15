@@ -1,0 +1,3 @@
+{{ object.full_name }}
+{{ object.designation }}
+{{ object.address }}
